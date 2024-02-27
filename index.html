@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>QR Generator</title>
+    <style>
+        body{
+            color: red;
+            background-color: rgb(95, 188, 235);
+        }  
+       .container {
+             margin-top: 12%;
+            border: 2px solid #c7bdc6; /* Light border color */
+            padding: 20px;
+            background-color: rgb(217, 227, 233) ; /* Light background color for the container */
+            width: 40%;
+            box-shadow: 0 0 10px rgba(8, 18, 31, 0.1); /* Optional: Add a light shadow */
+        }
+        #b1{
+            margin-top: 2%;
+        }
+        #data{
+            border-color: black;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="container">
+            <h2>QR GENERATOR</h2>
+            <img src="" id="img1">
+        
+            <table>
+                <td>
+                    <p>Width</p><select id="wsize">
+                        <option value="100">100</option>
+                        <option value="150" selected>150</option>
+                        <option value="200">200</option>
+                        <option value="250">250</option>
+                        <option value="300">300</option>
+                        <option value="350">350</option>
+                    </select>
+                </td>
+                <td>
+                    <p>Height</p><select id="hsize">
+                        <option value="100">100</option>
+                        <option value="150">150</option>
+                        <option value="200">200</option>
+                        <option value="250">250</option>
+                        <option value="300">300</option>
+                        <option value="350">350</option>
+                    </select>
+                </td>
+            </table><br>
+            <textarea required id="data">Enter data</textarea><P id="warning"></P><br>
+        <input type="submit" id="b1" value="Generate"  onclick=qrgen()>
+       
+        </div>
+    </center>
+</body>
+<script text="javascript">
+    function qrgen()
+    {
+       
+        var width=document.getElementById("wsize").value;
+        var height=document.getElementById("hsize").value;
+        var data=document.getElementById("data").value.trim();
+        var qrimg=document.getElementById("img1");
+        var urli="https://chart.googleapis.com/chart?cht=qr&chs=";
+        
+        if(data.length == 0)
+        {
+            document.getElementById("data").style="border-color:red";
+            document.getElementById("warning").innerHTML="Fill the data";
+        }
+        else
+        {
+            img1.src=urli+width+"x"+height+"&chl="+data;
+            
+        }
+
+    }
+</script>
+</html>
