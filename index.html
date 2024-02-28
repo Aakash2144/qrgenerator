@@ -21,6 +21,9 @@
         #data{
             border-color: black;
         }
+        #b2{
+            display: none;
+        }
         
     </style>
 </head>
@@ -29,8 +32,8 @@
     <center>
         <div class="container">
             <h2>QR GENERATOR</h2>
-            <img src="" id="img1">
-        
+            <img src="" id="img1" download="">
+            <input type="submit" value="download" id="b2" onclick="download()">
             <table>
                 <td>
                     <p>Width</p><select id="wsize">
@@ -68,7 +71,7 @@
         var data=document.getElementById("data").value.trim();
         var qrimg=document.getElementById("img1");
         var urli="https://chart.googleapis.com/chart?cht=qr&chs=";
-        
+        document.getElementById("b2").style.display="block";
         if(data.length == 0)
         {
             document.getElementById("data").style="border-color:red";
@@ -77,9 +80,30 @@
         else
         {
             img1.src=urli+width+"x"+height+"&chl="+data;
+            document.getElementById("but");
             
         }
 
     }
-</script>
+    function download() {
+    var qrimg = document.getElementById("img1");
+
+    // Get the data URL directly from the image
+    var dataUrl = qrimg.src;
+
+    // Create a standard anchor element for download
+    var downloadLink = document.createElement("a");
+    downloadLink.download = "QR_CODE.png";
+    downloadLink.href = dataUrl;
+
+    // Append the link to the document
+    document.body.appendChild(downloadLink);
+
+    // Trigger a click on the link to start the download
+    downloadLink.click();
+
+    // Remove the link from the document
+    document.body.removeChild(downloadLink);
+}
+  </script>
 </html>
