@@ -19,13 +19,14 @@
         .container {
             margin-top: 12%;
             border: 3px solid black;
-            background-color:white;
+            /* Light border color */
             padding: 20px;
             width: 40%;
             box-shadow: 0 0 40px rgba(255, 33, 56, 0.5);
             /* Optional: Add a light shadow */
             border-radius: 10px;
             opacity: 0.9;
+            background-color: white;
         }
 
         #b1 {
@@ -45,13 +46,22 @@
 <body>
     <center>
         <div class="container">
-            <h2>QR GENERATOR</h2>
-            <a href="" id="a" download>
-                <img src="" id="img1" download=""></a>
-            <table>
-                <td>
-                    
-                    <p>Width</p><select id="wsize">
+            <div class="row">
+                <div class="col-sm-12"> <!-- Full width for small screens -->
+                    <h2>QR GENERATOR</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12"> <!-- Full width for small screens -->
+                    <a href="" id="a" download>
+                        <img src="" id="img1" download="">
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6"> <!-- Half width for small screens -->
+                    <p>Width</p>
+                    <select id="wsize">
                         <option value="100">100</option>
                         <option value="150" selected>150</option>
                         <option value="200">200</option>
@@ -59,9 +69,10 @@
                         <option value="300">300</option>
                         <option value="350">350</option>
                     </select>
-                </td>
-                <td>
-                    <p>Height</p><select id="hsize">
+                </div>
+                <div class="col-sm-6"> <!-- Half width for small screens -->
+                    <p>Height</p>
+                    <select id="hsize">
                         <option value="100">100</option>
                         <option value="150">150</option>
                         <option value="200">200</option>
@@ -69,18 +80,20 @@
                         <option value="300">300</option>
                         <option value="350">350</option>
                     </select>
-                </td>
-            </table><br>
-            <textarea required id="data" placeholder="Enter URL"></textarea>
-            <P id="warning"></P><br>
-            <button type="button" id="b1" onclick=qrgen() class="btn btn-outline-danger">Genarate</button>
-
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12"> <!-- Full width for small screens -->
+                    <textarea required id="data" placeholder="Enter URL"></textarea>
+                    <P id="warning"></P><br>
+                    <button type="button" id="b1" onclick=qrgen() class="btn btn-outline-danger">Generate</button>
+                </div>
+            </div>
         </div>
     </center>
 </body>
 <script text="javascript">
     function qrgen() {
-
         var width = document.getElementById("wsize").value;
         var height = document.getElementById("hsize").value;
         var data = document.getElementById("data").value.trim();
@@ -89,16 +102,12 @@
         if (data.length == 0) {
             document.getElementById("data").style = "border-color:red";
             document.getElementById("warning").innerHTML = "Enter the data";
-           alert("Enter URl");
-        }
-        else {
+            alert("Enter URL");
+        } else {
             img1.src = urli + width + "x" + height + "&chl=" + data;
             document.getElementById("a").href = urli + width + "x" + height + "&chl=" + data;
-
         }
-
     }
-
 </script>
 
 </html>
