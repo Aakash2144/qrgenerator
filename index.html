@@ -2,41 +2,55 @@
 
 <head>
     <title>QR Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
     <style>
-         body{
+        body {
             color: red;
             background-color: rgb(95, 188, 235);
-        }  
-       .container {
-             margin-top: 12%;
-            border: 2px solid #c7bdc6; /* Light border color */
-            padding: 20px;
-            background-color: rgb(217, 227, 233) ; /* Light background color for the container */
-            width: 40%;
-            box-shadow: 0 0 10px rgba(8, 18, 31, 0.1); /* Optional: Add a light shadow */
         }
-        #b1{
+
+        .container {
+            margin-top: 12%;
+            border: 3px solid black;
+            /* Light border color */
+            padding: 20px;
+            width: 40%;
+            box-shadow: 0 0 40px rgba(255, 33, 56, 0.5);
+            /* Optional: Add a light shadow */
+            border-radius: 10px;
+            opacity: 0.9;
+        }
+
+        #b1 {
             margin-top: 2%;
         }
-        #data{
+
+        #data {
             border-color: black;
         }
-        #b2{
+
+        #b2 {
             display: none;
         }
-        
     </style>
 </head>
+
 <body>
     <center>
         <div class="container">
             <h2>QR GENERATOR</h2>
             <a href="" id="a" download>
-            <img src="" id="img1" download=""></a>
-            <input type="submit" value="download" id="b2" onclick=download()>
+                <img src="" id="img1" download=""></a>
             <table>
                 <td>
+                    
                     <p>Width</p><select id="wsize">
                         <option value="100">100</option>
                         <option value="150" selected>150</option>
@@ -57,34 +71,34 @@
                     </select>
                 </td>
             </table><br>
-            <textarea required id="data">Enter data</textarea><P id="warning"></P><br>
-        <input type="submit" id="b1" value="Generate"  onclick=qrgen()>
-       
+            <textarea required id="data" placeholder="Enter URL"></textarea>
+            <P id="warning"></P><br>
+            <button type="button" id="b1" onclick=qrgen() class="btn btn-outline-danger">Genarate</button>
+
         </div>
     </center>
 </body>
 <script text="javascript">
-    function qrgen()
-    {
-       
-        var width=document.getElementById("wsize").value;
-        var height=document.getElementById("hsize").value;
-        var data=document.getElementById("data").value.trim();
-        var qrimg=document.getElementById("img1");
-        var urli="https://chart.googleapis.com/chart?cht=qr&chs=";
-        if(data.length == 0)
-        {
-            document.getElementById("data").style="border-color:red";
-            document.getElementById("warning").innerHTML="Fill the data";
+    function qrgen() {
+
+        var width = document.getElementById("wsize").value;
+        var height = document.getElementById("hsize").value;
+        var data = document.getElementById("data").value.trim();
+        var qrimg = document.getElementById("img1");
+        var urli = "https://chart.googleapis.com/chart?cht=qr&chs=";
+        if (data.length == 0) {
+            document.getElementById("data").style = "border-color:red";
+            document.getElementById("warning").innerHTML = "Enter the data";
+           alert("Enter URl");
         }
-        else
-        {
-            img1.src=urli+width+"x"+height+"&chl="+data;
-            document.getElementById("a").href=urli+width+"x"+height+"&chl="+data;
-            
+        else {
+            img1.src = urli + width + "x" + height + "&chl=" + data;
+            document.getElementById("a").href = urli + width + "x" + height + "&chl=" + data;
+
         }
 
     }
 
-      </script>
-  </html>
+</script>
+
+</html>
