@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-sm-12 mx-auto">
                     
-                        <img src="" id="img1" alt="QR Code">
+                        <img src="" id="img1">
                     
                 </div>
             </div>
@@ -107,9 +107,9 @@
             document.getElementById("warning").innerHTML = "Enter the data";
             alert("Enter URL");
         } else {
-            qrimg.src = urli + width + "x" + height + "&chl=" + data;
+            img1.src = urli + width + "x" + height + "&chl=" + data;
             /*document.getElementById("a").href = urli + width + "x" + height + "&chl=" + data;*/
-            <button type="button" class="btn btn-primary"><a href="qrimg.src" download></a></button>
+            <button type="button" class="btn btn-primary"><a href="qrimg.src" download>Download</a></button>
         }
     }
 </script>
