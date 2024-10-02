@@ -1,4 +1,3 @@
-
 <html>
 
 <head>
@@ -46,9 +45,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 mx-auto">
-                    
-                        <img src="" id="img1">
-                    
+                    <img src="" id="img1">
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5%;">
@@ -68,7 +65,7 @@
                     <p>Height</p>
                     <select id="hsize">
                         <option value="100">100</option>
-                        <option value="150">150</option>
+                        <option value="150" selected>150</option>
                         <option value="200">200</option>
                         <option value="250">250</option>
                         <option value="300">300</option>
@@ -82,6 +79,13 @@
                     <textarea required id="data" placeholder="Enter URL"></textarea>
                     <p id="warning"></p><br>
                     <button type="button" id="b1" onclick="qrgen()" class="btn btn-outline-danger">Generate</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="downloadSection" style="display:none;"> <!-- Download button hidden by default -->
+                    <button type="button" class="btn btn-primary">
+                        <a id="downloadLink" href="" download="qrcode.png" style="color:white;">Download QR Code</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -107,9 +111,10 @@
             document.getElementById("warning").innerHTML = "Enter the data";
             alert("Enter URL");
         } else {
-            qrimg.src = urli + width + "x" + height + "&chl=" + data;
-            /*document.getElementById("a").href = urli + width + "x" + height + "&chl=" + data;*/
-            <button type="button" class="btn btn-primary"><a href="qrimg.src" download>Download</a></button>
+            var qrCodeUrl = urli + width + "x" + height + "&chl=" + encodeURIComponent(data);
+            qrimg.src = qrCodeUrl;
+            document.getElementById("downloadLink").href = qrCodeUrl;  // Set the download link
+            document.getElementById("downloadSection").style.display = "block";  // Show the download button
         }
     }
 </script>
