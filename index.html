@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Generator</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         body {
             color: red;
@@ -18,7 +17,6 @@
             border: 3px solid black;
             padding: 20px;
             width: 40%;
-            box-shadow: 0 0 40px rgba(255, 33, 56, 0.5);
             border-radius: 10px;
             opacity: 0.9;
             background-color: white;
@@ -41,87 +39,124 @@
         textarea {
             resize: none;
         }
+
+        #download {
+            background: blue;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #download:hover {
+            background: darkblue;
+        }
+
+        canvas {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
+
     <center>
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12 mx-auto">
-                    <h2>QR GENERATOR</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 mx-auto">
-                    <img src="" id="img1" alt="QR Code" style="display:none;" />
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5%;">
-                <div class="col-sm-2 col-2 col-lg-4"></div>
-                <div class="col-sm-4 col-4 col-lg-2">
+            <h2>QR GENERATOR</h2>
+            <input type="text" id="label" placeholder="Enter Label (Optional)">
+            <br>
+            <table>
+                <td>
                     <p>Width</p>
                     <select id="wsize">
                         <option value="100">100</option>
-                        <option value="150" selected>150</option>
+                        <option value="150">150</option>
                         <option value="200">200</option>
-                        <option value="250">250</option>
+                        <option value="250" selected>250</option>
                         <option value="300">300</option>
                         <option value="350">350</option>
                     </select>
-                </div>
-                <div class="col-sm-4 col-4 col-lg-2">
+                </td>
+                <td>
                     <p>Height</p>
                     <select id="hsize">
                         <option value="100">100</option>
-                        <option value="150" selected>150</option>
+                        <option value="150">150</option>
                         <option value="200">200</option>
-                        <option value="250">250</option>
+                        <option value="250" selected>250</option>
                         <option value="300">300</option>
                         <option value="350">350</option>
                     </select>
-                </div>
-                <div class="col-sm-2 col-2 col-lg-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <textarea required id="data" placeholder="Enter URL"></textarea>
-                    <p id="warning"></p><br>
-                    <button type="button" id="b1" onclick="qrgen()" class="btn btn-outline-danger">Generate</button>
-                </div>
-            </div>
+                </td>
+            </table>
+            <br>
+            <textarea required id="data" placeholder="Enter data"></textarea>
+            <p id="warning"></p>
+            <br>
+            <input type="submit" id="b1" value="Generate" onclick="qrgen()">
+            <br>
+            <canvas id="finalCanvas"></canvas>
+            <br>
+            <a id="download" download="QRCode.png">Download QR</a>
         </div>
     </center>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-        crossorigin="anonymous"></script>
-
     <script>
         function qrgen() {
-            var width = document.getElementById("wsize").value;
-            var height = document.getElementById("hsize").value;
+            var label = document.getElementById("label").value.trim();
+            var width = parseInt(document.getElementById("wsize").value);
+            var height = parseInt(document.getElementById("hsize").value);
             var data = document.getElementById("data").value.trim();
-            var qrimg = document.getElementById("img1");
-            var urli = "https://chart.googleapis.com/chart?cht=qr&chs=";
-            if (data.length == 0) {
-                document.getElementById("data").style.borderColor = "red";
-                document.getElementById("warning").innerHTML = "Enter the data";
-                alert("Enter URL");
-            } else {
-                // Encode the data to ensure special characters are handled
-                var qrCodeUrl = urli + width + "x" + height + "&chl=" + encodeURIComponent(data);
+            var canvas = document.getElementById("finalCanvas");
+            var ctx = canvas.getContext("2d");
 
-                // Set the QR code image source
-                qrimg.src = qrCodeUrl;
-                qrimg.style.display = "block"; // Make the image visible
+            if (data.length === 0) {
+                alert("Please enter data.");
+                return;
             }
+
+            var qr = new QRious({
+                value: data,
+                size: width
+            });
+
+            var qrImage = new Image();
+            qrImage.src = qr.toDataURL();
+
+            qrImage.onload = function () {
+                var padding = 20; 
+                var labelHeight = label ? 40 : 0; 
+
+                canvas.width = width + (2 * padding);
+                canvas.height = height + (2 * padding) + labelHeight;
+
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                if (label) {
+                    ctx.fillStyle = "black";
+                    ctx.font = "18px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText(label, canvas.width / 2, padding + 15);
+                }
+
+                ctx.drawImage(qrImage, padding, padding + labelHeight, width, height);
+
+                document.getElementById("download").style.display = "inline-block";
+
+                document.getElementById("download").onclick = function() {
+                    var link = document.createElement("a");
+                    link.download = "QRCode.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                };
+
+                canvas.style.display = "block";
+            };
         }
     </script>
 
 </body>
-
 </html>
