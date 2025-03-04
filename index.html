@@ -10,34 +10,49 @@
         body {
             color: red;
             background-image: url('bg.png');
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
-            margin-top: 12%;
             border: 3px solid black;
             padding: 20px;
             width: 40%;
+            min-width: 320px;
+            max-width: 500px;
             border-radius: 10px;
             opacity: 0.9;
             background-color: white;
+            text-align: center;
         }
 
         #b1 {
             margin-top: 2%;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
         }
 
         #data {
             border-color: black;
             width: 100%;
-            padding: 5px;
-        }
-
-        img {
-            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
         }
 
         textarea {
             resize: none;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
         }
 
         #download {
@@ -48,6 +63,8 @@
             border-radius: 5px;
             margin-top: 10px;
             display: none;
+            width: 100%;
+            text-align: center;
         }
 
         #download:hover {
@@ -56,52 +73,90 @@
 
         canvas {
             display: none;
+            margin-top: 10px;
+            width: 100% !important;
+            height: auto !important;
+            max-width: 300px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            text-align: center;
+            padding: 5px;
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+                height: auto;
+            }
+
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            table, td {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            canvas {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <center>
-        <div class="container">
-            <h2>QR GENERATOR</h2>
-            <input type="text" id="label" placeholder="Enter Label (Optional)">
-            <br>
-            <table>
-                <td>
-                    <p>Width</p>
-                    <select id="wsize">
-                        <option value="100">100</option>
-                        <option value="150">150</option>
-                        <option value="200">200</option>
-                        <option value="250" selected>250</option>
-                        <option value="300">300</option>
-                        <option value="350">350</option>
-                    </select>
-                </td>
-                <td>
-                    <p>Height</p>
-                    <select id="hsize">
-                        <option value="100">100</option>
-                        <option value="150">150</option>
-                        <option value="200">200</option>
-                        <option value="250" selected>250</option>
-                        <option value="300">300</option>
-                        <option value="350">350</option>
-                    </select>
-                </td>
-            </table>
-            <br>
-            <textarea required id="data" placeholder="Enter data"></textarea>
-            <p id="warning"></p>
-            <br>
-            <input type="submit" id="b1" value="Generate" onclick="qrgen()">
-            <br>
-            <canvas id="finalCanvas"></canvas>
-            <br>
-            <a id="download" download="QRCode.png">Download QR</a>
-        </div>
-    </center>
+    <div class="container">
+        <h2>QR GENERATOR</h2>
+        <input type="text" id="label" placeholder="Enter Label (Optional)">
+        <br>
+        <table>
+            <td>
+                <p>Width</p>
+                <select id="wsize">
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                    <option value="250" selected>250</option>
+                    <option value="300">300</option>
+                    <option value="350">350</option>
+                </select>
+            </td>
+            <td>
+                <p>Height</p>
+                <select id="hsize">
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                    <option value="250" selected>250</option>
+                    <option value="300">300</option>
+                    <option value="350">350</option>
+                </select>
+            </td>
+        </table>
+        <br>
+        <textarea required id="data" placeholder="Enter data"></textarea>
+        <p id="warning"></p>
+        <br>
+        <input type="submit" id="b1" value="Generate" onclick="qrgen()">
+        <br>
+        <canvas id="finalCanvas"></canvas>
+        <br>
+        <a id="download" download="QRCode.png">Download QR</a>
+    </div>
 
     <script>
         function qrgen() {
